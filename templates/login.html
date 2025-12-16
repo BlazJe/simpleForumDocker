@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h2>Login</h2>
+    <a class="btn" href="{{ url_for('index') }}">Back</a>
+  </header>
+
+  <form class="post-form" method="post">
+    {% if request.args.get('next') %}
+      <input type="hidden" name="next" value="{{ request.args.get('next') }}">
+    {% endif %}
+    <label>Username
+      <input name="username" type="text" required>
+    </label>
+
+    <label>Password
+      <input name="password" type="password" required>
+    </label>
+
+    <div class="form-actions">
+      <button class="btn primary" type="submit">Login</button>
+    </div>
+  </form>
+
+  <p class="muted">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+{% endblock %}

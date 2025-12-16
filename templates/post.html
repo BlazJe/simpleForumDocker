@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h2>{{ post.title }}</h2>
+    <a class="btn" href="{{ url_for('index') }}">Back</a>
+  </header>
+
+  <article class="post-card single">
+    <div class="post-meta">
+      <div class="meta-left">By <strong>{{ post.username or 'Anonymous' }}</strong></div>
+      <time class="post-time">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</time>
+    </div>
+    <div class="post-content"><p>{{ post.content }}</p></div>
+  </article>
+
+  <section class="replies">
+    <h3>Replies</h3>
+    {% if replies %}
+      {% for r in replies %}
+        <div class="reply-card">
+          <div class="reply-meta"><strong>{{ r.username or 'Anonymous' }}</strong> <time class="post-time">{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</time></div>
+          <div class="reply-content">{{ r.content }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="muted">No replies yet.</p>
+    {% endif %}
+
+    {% if current_user %}
+      <form class="post-form" method="post" action="{{ url_for('post_reply', post_id=post.id) }}">
+        <label>Reply
+          <textarea name="content" rows="4" required></textarea>
+        </label>
+        <div class="form-actions"><button class="btn" type="submit">Reply</button></div>
+      </form>
+    {% else %}
+      <p class="muted">You must <a href="{{ url_for('login', next=url_for('post_view', post_id=post.id)) }}">log in</a> to reply.</p>
+    {% endif %}
+  </section>
+{% endblock %}

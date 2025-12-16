@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h2>Create Post</h2>
+    <a class="btn" href="{{ url_for('index') }}">Back</a>
+  </header>
+
+  {% if current_user %}
+    <form class="post-form" method="post">
+      <label>Title
+        <input name="title" type="text" required>
+      </label>
+
+      <label>Content
+        <textarea name="content" rows="6" required></textarea>
+      </label>
+
+      <div class="form-actions">
+        <button class="btn primary" type="submit">Post</button>
+      </div>
+    </form>
+  {% else %}
+    <p class="muted">You must <a href="{{ url_for('login', next=url_for('create')) }}">log in</a> to create a post. Don't have an account? <a href="{{ url_for('register') }}">Register</a>.</p>
+  {% endif %}
+{% endblock %}

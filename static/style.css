@@ -1,0 +1,213 @@
+/*
+  Dark theme variables
+*/
+:root {
+  --bg: #0b0f14;
+  --card: #0f1720;
+  --muted: #9aa6b2;
+  --text: #e6eef6;
+  --accent: #4f9fff;
+  --accent-2: #7bd389;
+}
+
+/* Box sizing and base layout */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 16px;
+}
+
+/* Topbar / nav */
+.topbar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.brand h1 a { color: var(--text); text-decoration: none; }
+.nav { display: flex; gap: 10px; align-items: center; }
+.nav-user { color: var(--muted); margin-right: 8px; }
+
+/* Header */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #041223;
+  border: none;
+}
+
+/* Posts list */
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.post-card:hover { transform: translateY(-2px); transition: transform 120ms ease; }
+
+.post-card.single {
+  max-width: 100%;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.meta-right { text-align: right; color: var(--muted); font-size: 0.9rem; }
+.meta-left { color: var(--muted); font-size: 0.95rem; margin-right: 8px; }
+
+.post-title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.post-title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.post-time {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.post-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+
+.post-content {
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Flashes */
+.flashes { list-style: none; padding: 0; margin: 8px 0 16px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+.flash { padding: 8px 12px; border-radius: 8px; font-size: 0.95rem; }
+.flash.success { background: rgba(123, 211, 137, 0.08); color: var(--accent-2); }
+.flash.error { background: rgba(255, 80, 80, 0.06); color: #ff8b8b; }
+.flash.info { background: rgba(79, 159, 255, 0.06); color: var(--accent); }
+
+/* Page header used on inner pages */
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.page-header h2 { margin:0; font-size:1.25rem; }
+
+/* Replies */
+.replies { margin-top: 18px; }
+.reply-card { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.02); padding: 10px; border-radius:8px; margin-bottom:8px; }
+.reply-meta { color: var(--muted); font-size:0.9rem; margin-bottom:6px; }
+.reply-content { color: var(--text); }
+
+/* Intro paragraph */
+.intro { margin-bottom: 8px; }
+
+/* Post form */
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.post-form label {
+  display: flex;
+  flex-direction: column;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.post-form input[type="text"],
+.post-form textarea,
+.post-form input[type="file"] {
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #081018;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  outline: none;
+}
+
+.post-form textarea {
+  min-height: 140px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .container {
+    padding: 12px;
+    margin: 12px;
+  }
+
+  .site-header h1 {
+    font-size: 1.2rem;
+  }
+}

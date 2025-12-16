@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Forum{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <h1><a href="{{ url_for('index') }}">Forum</a></h1>
+        </div>
+        <nav class="nav">
+          {% if current_user %}
+            <span class="nav-user">{{ current_user.username }}</span>
+            <a class="btn" href="{{ url_for('create') }}">New Post</a>
+            <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+          {% else %}
+            <a class="btn" href="{{ url_for('login') }}">Login</a>
+            <a class="btn" href="{{ url_for('register') }}">Register</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="flash {{ category }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

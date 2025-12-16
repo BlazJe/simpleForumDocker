@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-caching
+python-dotenv
+click
+gunicorn
+mysqlclient
+redis
+cryptography

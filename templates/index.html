@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Forum - Posts{% endblock %}
+
+{% block content %}
+  <section class="intro">
+    <p class="muted">Welcome to the forum — browse posts below. {% if not current_user %}Please <a href="{{ url_for('login') }}">login</a> to post.{% endif %}</p>
+  </section>
+
+  <section class="posts">
+    {% for p in posts %}
+      <article class="post-card">
+        <div class="post-meta">
+          <h2 class="post-title"><a href="{{ url_for('post_view', post_id=p.id) }}">{{ p.title }}</a></h2>
+          <div class="meta-right">
+            <div class="meta-author">{{ p.username or 'Anonymous' }}</div>
+            <time class="post-time">{{ p.created_at.strftime('%Y-%m-%d %H:%M') }}</time>
+          </div>
+        </div>
+
+        <p class="post-content">{{ p.content }}</p>
+      </article>
+    {% else %}
+      <p class="muted">No posts yet. Be the first!</p>
+    {% endfor %}
+  </section>
+{% endblock %}
