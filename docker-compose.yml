@@ -1,0 +1,93 @@
+services:
+  app:
+    build: .
+    image: my-flask-app:latest
+    container_name: flask_app
+    restart: unless-stopped
+    secrets:
+      - db_password
+      - flask_secret
+    environment:
+      - REDIS_URL=redis://cache:6379/0
+    volumes:
+      - socket_data:/run/gunicorn
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+    networks:
+      - internal-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt        
+      - ./certbot/www:/var/www/certbot         
+      - socket_data:/run/gunicorn
+    depends_on:
+      - app
+    networks:
+      - internal-net
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    profiles: ["tools"]
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    secrets:
+      - db_password
+      - db_root_password
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - internal-net
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  cache:
+    image: redis:alpine
+    container_name: redis_cache
+    restart: unless-stopped
+    networks:
+      - internal-net
+
+secrets:
+  db_password:
+    environment: "MYSQL_USER_PASSWORD"
+  db_root_password:
+    environment: "MYSQL_ROOT_PASSWORD"
+  flask_secret:
+    environment: "FLASK_SECRET_KEY"
+
+volumes:
+  db_data:
+  socket_data:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: "mode=0777"
+
+networks:
+  internal-net
