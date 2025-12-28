@@ -90,4 +90,4 @@ volumes:
       o: "mode=0777"
 
 networks:
-  internal-net
+  internal-net:
