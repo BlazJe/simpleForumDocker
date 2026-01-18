@@ -23,8 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /install /usr/local
 COPY . .
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY entrypoint_k8s.sh /entrypoint_k8s.sh
+RUN chmod +x /entrypoint_k8s.sh
 
 RUN useradd -m appuser && chown -R appuser /app
 USER appuser
