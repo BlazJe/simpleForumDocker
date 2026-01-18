@@ -29,6 +29,6 @@ RUN chmod +x /entrypoint.sh
 RUN useradd -m appuser && chown -R appuser /app
 USER appuser
 
-ENTRYPOINT ["/entrypoint_k8s.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wsgi:app"]
+CMD ["gunicorn", "-w", "4", "--bind", "unix:/run/gunicorn/socket.sock", "-m", "000", "wsgi:app"]
