@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: "root-geslo-123"
+  MYSQL_PASSWORD: "user-geslo-123"
+  FLASK_SECRET_KEY: "zelo-skrivna-koda-za-seje"
+  
+  MYSQL_DATABASE: "flaskdb"
+  MYSQL_USER: "flask_user"
+  REDIS_URL: "redis://redis-service:6379/0"

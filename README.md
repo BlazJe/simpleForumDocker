@@ -177,6 +177,8 @@ git push origin v1.0.0  # Builds and pushes v1.0.0 + latest
 # Flask Forum - Kubernetes Deployment
 ## Kubernetes instalation
    ```bash
+   chomd +x install_prerequisites.sh
+   chmod +x install_microk8s.sh
     ./install_prerequisites.sh
     ./install_microk8s.sh
 ```
@@ -184,7 +186,7 @@ git push origin v1.0.0  # Builds and pushes v1.0.0 + latest
 ## Deployment Steps
 
 1.  **Configure Secrets & Maps**
-    Update `01-config.yaml` with your database credentials and `SECRET_KEY`.
+    Update `01-config.yaml` with your credentials`.
     
 2.  **Apply Configurations**
     ```bash
@@ -199,6 +201,11 @@ git push origin v1.0.0  # Builds and pushes v1.0.0 + latest
     *Wait until `mysql-0` is in `Running` status before proceeding.*
 
 4.  **Deploy Application & Ingress**
+
+    update `03-app.yaml` with your docker image.
+    
+    update `04-ingress.yaml` with your domain.
+    
     ```bash
     kubectl apply -f 03-app.yaml
     kubectl apply -f 04-ingress.yaml
