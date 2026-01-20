@@ -203,11 +203,14 @@ git push origin v1.0.0  # Builds and pushes v1.0.0 + latest
 4.  **Deploy Application & Ingress**
 
     update `03-app.yaml` with your docker image.
-    
+
     update `04-ingress.yaml` with your domain.
     
     ```bash
     kubectl apply -f 03-app.yaml
+
+    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml
+
     kubectl apply -f 04-ingress.yaml
     ```
 
