@@ -174,3 +174,50 @@ git tag v1.0.0
 git push origin v1.0.0  # Builds and pushes v1.0.0 + latest
 ```
 
+# Flask Forum - Kubernetes Deployment
+## Kubernetes instalation
+   ```bash
+    ./install_prerequisites.sh
+    ./install_microk8s.sh
+```
+
+## Deployment Steps
+
+1.  **Configure Secrets & Maps**
+    Update `01-config.yaml` with your database credentials and `SECRET_KEY`.
+    
+2.  **Apply Configurations**
+    ```bash
+    kubectl apply -f 01-config.yaml
+    ```
+
+3.  **Deploy Infrastructure (Backend)**
+    Deploy MySQL and Redis first.
+    ```bash
+    kubectl apply -f 02-backend.yaml
+    ```
+    *Wait until `mysql-0` is in `Running` status before proceeding.*
+
+4.  **Deploy Application & Ingress**
+    ```bash
+    kubectl apply -f 03-app.yaml
+    kubectl apply -f 04-ingress.yaml
+    ```
+
+---
+
+## Zero-Downtime Rolling Update
+
+The deployment uses a RollingUpdate strategy to ensure the application remains online while updating the container image.
+
+
+
+### How to trigger an update:
+After pushing a new image to Docker Hub, force Kubernetes to pull the latest version and replace pods one-by-one:
+
+```bash
+# Trigger the update
+kubectl rollout restart deployment flask-app
+
+# Monitor the progress in real-time
+kubectl rollout status deployment flask-app
